@@ -1,13 +1,12 @@
 // shim for using process in browser
-var process = module.exports = {};
 
 // cached from whatever global is present so that test runners that stub it
 // don't break things.  But we need to wrap it in a try catch in case it is
 // wrapped in strict mode code which doesn't define any globals.  It's inside a
 // function because try/catches deoptimize in certain engines.
 
-var cachedSetTimeout;
-var cachedClearTimeout;
+let cachedSetTimeout;
+let cachedClearTimeout;
 
 function defaultSetTimeout() {
     throw new Error('setTimeout has not been defined');
@@ -83,14 +82,11 @@ function runClearTimeout(marker) {
             return cachedClearTimeout.call(this, marker);
         }
     }
-
-
-
 }
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
+let queue = [];
+let draining = false;
+let currentQueue;
+let queueIndex = -1;
 
 function cleanUpNextTick() {
     if (!draining || !currentQueue) {
@@ -111,10 +107,10 @@ function drainQueue() {
     if (draining) {
         return;
     }
-    var timeout = runTimeout(cleanUpNextTick);
+    const timeout = runTimeout(cleanUpNextTick);
     draining = true;
 
-    var len = queue.length;
+    let len = queue.length;
     while(len) {
         currentQueue = queue;
         queue = [];
@@ -131,18 +127,12 @@ function drainQueue() {
     runClearTimeout(timeout);
 }
 
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
+export function nextTick(fun, ...args) {
     queue.push(new Item(fun, args));
     if (queue.length === 1 && !draining) {
         runTimeout(drainQueue);
     }
-};
+}
 
 // v8 likes predictible objects
 function Item(fun, array) {
@@ -152,33 +142,58 @@ function Item(fun, array) {
 Item.prototype.run = function () {
     this.fun.apply(null, this.array);
 };
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
+
+export const title = 'browser';
+export const browser = true;
+export const env = {};
+export const argv = [];
+export const version = ''; // empty string to avoid regexp issues
+export const versions = {};
 
 function noop() {}
 
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
+export const on = noop;
+export const addListener = noop;
+export const once = noop;
+export const off = noop;
+export const removeListener = noop;
+export const removeAllListeners = noop;
+export const emit = noop;
+export const prependListener = noop;
+export const prependOnceListener = noop;
 
-process.listeners = function (name) { return [] }
+export const listeners = function (name) { return []; }
 
-process.binding = function (name) {
+export function binding(name) {
     throw new Error('process.binding is not supported');
-};
+}
 
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
+export function cwd() { return '/' }
+export function chdir(dir) {
     throw new Error('process.chdir is not supported');
+}
+export function umask() { return 0; }
+
+export default {
+    nextTick,
+    title,
+    browser,
+    env,
+    argv,
+    version,
+    versions,
+    on,
+    addListener,
+    once,
+    off,
+    removeListener,
+    removeAllListeners,
+    emit,
+    prependListener,
+    prependOnceListener,
+    listeners,
+    binding,
+    cwd,
+    chdir,
+    umask,
 };
-process.umask = function() { return 0; };

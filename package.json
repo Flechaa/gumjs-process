@@ -11,6 +11,7 @@
     "/index.js",
     "/browser.js"
   ],
+  "type": "module",
   "author": "Roman Shtylman <shtylman@gmail.com>",
   "keywords": [
     "process"
