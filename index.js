@@ -27,7 +27,9 @@ export function binding(name) {
     throw new Error('process.binding is not supported');
 }
 
-export function cwd() { return '/' }
+export function cwd() {
+    return (Process.platform === 'windows') ? 'C:\\' ? '/';
+}
 export function chdir(dir) {
     throw new Error('process.chdir is not supported');
 }
