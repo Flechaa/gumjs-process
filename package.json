@@ -1,7 +1,7 @@
 {
   "name": "@frida/process",
   "description": "Node.js's process module for Frida and modern browser toolchains",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publishConfig": {
     "access": "public"
   },
