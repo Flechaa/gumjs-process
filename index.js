@@ -2,6 +2,8 @@ export const nextTick = Script.nextTick;
 
 export const title = 'Frida';
 export const browser = false;
+export const platform = detectPlatform();
+export const pid = Process.id;
 export const env = {};
 export const argv = [];
 export const version = Frida.version;
@@ -35,6 +37,8 @@ export default {
     nextTick,
     title,
     browser,
+    platform,
+    pid,
     env,
     argv,
     version,
@@ -54,3 +58,8 @@ export default {
     chdir,
     umask,
 };
+
+function detectPlatform() {
+    const platform = Process.platform;
+    return (platform === 'windows') ? 'win32' : platform;
+}
