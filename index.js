@@ -4,7 +4,9 @@ export const title = 'Frida';
 export const browser = false;
 export const platform = detectPlatform();
 export const pid = Process.id;
-export const env = {};
+export const env = {
+  FRIDA_COMPILE: '1',
+};
 export const argv = [];
 export const version = Frida.version;
 export const versions = {};
