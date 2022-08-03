@@ -1,4 +1,6 @@
-export const nextTick = Script.nextTick;
+export function nextTick(callback, ...args) {
+  Script.nextTick(callback, ...args);
+}
 
 export const title = 'Frida';
 export const browser = false;
