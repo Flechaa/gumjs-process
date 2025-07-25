@@ -10,7 +10,7 @@ export const env = {
   FRIDA_COMPILE: '1',
 };
 export const argv = [];
-export const version = Frida.version;
+export const version = "";
 export const versions = {};
 
 function noop() {}
