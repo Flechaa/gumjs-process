@@ -2,7 +2,7 @@ export function nextTick(callback, ...args) {
   Script.nextTick(callback, ...args);
 }
 
-export const title = 'Frida';
+export const title = '';
 export const browser = false;
 export const platform = detectPlatform();
 export const pid = Process.id;
